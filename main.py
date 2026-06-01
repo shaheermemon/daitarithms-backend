@@ -3,14 +3,15 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import Column, Integer, String, text
 from pydantic import BaseModel
-from sqlalchemy import text
 from typing import Optional
 
 from database import SessionLocal, engine, Base
 import models
 
 # Create tables (only first run)
-Base.metadata.create_all(bind=engine)
+@app.on_event("startup")
+def startup():
+    Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="AI Website Backend")
 
