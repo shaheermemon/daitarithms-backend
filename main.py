@@ -8,12 +8,14 @@ from typing import Optional
 from database import SessionLocal, engine, Base
 import models
 
+app = FastAPI(title="AI Website Backend")
+
 # Create tables (only first run)
 @app.on_event("startup")
 def startup():
     Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="AI Website Backend")
+
 
 app.add_middleware(
     CORSMiddleware,
